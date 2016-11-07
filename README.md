@@ -40,22 +40,23 @@ If you've added `Olssonm\Zxcvbn` as an alias, your can access Zxcvbn easily from
 
 ``` php
 <?php
+
 use Zxcvbn;
 
-class MyClass
+class MyClass extends MyOtherClass
 {
     public function myFunction()
     {
-        $zxcvbn = Zxcvbn::passwordStrength('password');;
-        dd($zxcvbn->passwordStrength('password'));
+        $zxcvbn = Zxcvbn::passwordStrength('password');
+        dd($zxcvbn);
 
-        // array:6 [
-        //     "crack_time" => 5.0E-5
-        //     "calc_time" => 0.1857271194458
-        //     "password" => "password"
-        //     "entropy" => 0.0
-        //     "match_sequence" => array:1 []
-        //     "score" => 0
+        // array:6 [▼
+        //   "crack_time" => 5.0E-5
+        //   "calc_time" => 0.12961101531982
+        //   "password" => "password"
+        //   "entropy" => 0.0
+        //   "match_sequence" => array:1 []
+        //   "score" => 0
         // ]
     }
 }
@@ -72,8 +73,11 @@ The package gives you two different validation rules that you may use; `zxcvbn_m
 
 `zxcvbn_min` allows you to set up a rule for minimum score that the value beeing tested should adhere to.
 
-***Syntax***  
-`'input' => 'zxcvbn_min:min_value'`
+**Syntax**
+
+    input' => 'zxcvbn_min:min_value'
+
+**Example**
 
 ``` php
 <?php
@@ -91,8 +95,11 @@ In this example the password should at least have a "score" of three (3) to pass
 
 This is a bit more interesting. `zxcvbn_dictionary` allows you to input both the users username and/or email, and their password. The validator checks that the password doesn't exist in the username, or that they are too similar.
 
-***Syntax***  
-`'input' => 'xcvbn_dictionary:username,email'`
+**Syntax**
+
+    'input' => 'xcvbn_dictionary:username,email'
+
+**Example**
 
 ``` php
 <?php
@@ -143,7 +150,7 @@ $ phpunit
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-© 2015 [Marcus Olsson](https://marcusolsson.me).
+© 2016 [Marcus Olsson](https://marcusolsson.me).
 
 [ico-version]: https://img.shields.io/packagist/v/olssonm/l5-zxcvbn.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square

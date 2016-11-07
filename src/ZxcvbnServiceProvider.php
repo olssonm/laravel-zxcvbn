@@ -74,8 +74,8 @@ class ZxcvbnServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['zxcvbn'] = $this->app->share(function ($app) {
-            return new ZxcvbnPhp($this->app['config']);
+        $this->app->bind('zxcvbn', function ($app) {
+            return new ZxcvbnPhp();
         });
     }
 }
