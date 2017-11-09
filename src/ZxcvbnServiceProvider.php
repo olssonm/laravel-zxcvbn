@@ -28,10 +28,10 @@ class ZxcvbnServiceProvider extends ServiceProvider
             }
 
             return ($zxcvbn['score'] >= $target);
-        }, 'Your :input is not secure enough.');
+        }, 'Your :attribute is not secure enough.');
 
         Validator::replacer('zxcvbn_min', function($message, $attribute, $rule, $parameters) {
-            $message = str_replace(':input', $attribute, $message);
+            $message = str_replace(':attribute', $attribute, $message);
             return $message;
         });
 
@@ -59,10 +59,10 @@ class ZxcvbnServiceProvider extends ServiceProvider
 
             return true;
 
-        }, 'Your :input is insecure. It either matches a commonly used password, or you have used a similar username/password combination.');
+        }, 'Your :attribute is insecure. It either matches a commonly used password, or you have used a similar username/password combination.');
 
         Validator::replacer('zxcvbn_dictionary', function($message, $attribute, $rule, $parameters) {
-            $message = str_replace(':input', $attribute, $message);
+            $message = str_replace(':attribute', $attribute, $message);
             return $message;
         });
     }
