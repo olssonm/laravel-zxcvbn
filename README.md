@@ -1,10 +1,11 @@
 # Zxcvbn for Laravel 5
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
+[![Total downloads][ico-downloads]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
 
-A simple implementation of zxcvbn for Laravel 5. This package allows you to access "zxcvbn-related" data on a passphrase in the application, but also use zxcvbn as a standard validator.
+A simple implementation of zxcvbn for Laravel 5. This package allows you to access "zxcvbn-related" data on a passphrase in the application and also to use zxcvbn as a standard validator.
 
 Uses [Zxcvbn-PHP](https://github.com/bjeavons/zxcvbn-php) by [@bjeavons](https://github.com/bjeavons), which in turn is inspired by [zxcvbn](https://github.com/dropbox/zxcvbn) by [@dropbox](https://github.com/dropbox).
 
@@ -153,6 +154,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 © 2017 [Marcus Olsson](https://marcusolsson.me).
 
 [ico-version]: https://img.shields.io/packagist/v/olssonm/l5-zxcvbn.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/olssonm/l5-zxcvbn.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/olssonm/l5-zxcvbn/master.svg?style=flat-square
 [link-packagist]: https://packagist.org/packages/olssonm/l5-zxcvbn
