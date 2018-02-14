@@ -11,7 +11,7 @@ script: composer test
 matrix:
   include:
     - php: 5.6
-      env: ILLUMINATE_VERSION=5.3.7
+      env: ILLUMINATE_VERSION=5.3.*
     - php: 5.6
       env: ILLUMINATE_VERSION=5.4.*
     - php: 7.0

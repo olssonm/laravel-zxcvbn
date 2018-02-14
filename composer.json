@@ -21,7 +21,7 @@
     ],
     "require": {
         "php" : ">=5.6.0|>=7.0",
-        "illuminate/support": "~5.3.28|~5.4|~5.5|~5.6",
+        "illuminate/support": "~5.3|~5.4|~5.5|~5.6",
         "bjeavons/zxcvbn-php": "0.3.0"
     },
     "require-dev": {
@@ -43,7 +43,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.x-dev"
+            "dev-master": "4.x-dev"
         },
         "laravel": {
             "providers": [
