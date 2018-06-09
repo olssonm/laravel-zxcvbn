@@ -4,6 +4,9 @@
 [![Total downloads][ico-downloads]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
+[![Scrutinizer Score][ico-scrutinizer]][link-scrutinizer]
+
+![zxcvbn](https://user-images.githubusercontent.com/907114/41193108-747d9b50-6c08-11e8-8f9c-57874f52fa9b.png)
 
 A simple implementation of zxcvbn for Laravel 5. This package allows you to access "zxcvbn-related" data on a passphrase in the application and also to use zxcvbn as a standard validator.
 
@@ -13,13 +16,13 @@ Uses [Zxcvbn-PHP](https://github.com/bjeavons/zxcvbn-php) by [@bjeavons](https:/
 
 Via Composer
 
-``` bash
+```bash
 $ composer require olssonm/l5-zxcvbn
 ```
 
 Add the package to your providers array:
 
-``` php
+```php
 'providers' => [
     Olssonm\Zxcvbn\ZxcvbnServiceProvider::class,
 ]
@@ -27,7 +30,7 @@ Add the package to your providers array:
 
 If you wish to have the ability to use `Zxcvbn` via dependency injection, or just have a quick way to access the class – add an alias to the facades:
 
-``` php
+```php
 'aliases' => [
     'Zxcvbn' => Olssonm\Zxcvbn\Facades\Zxcvbn::class
 ]
@@ -39,7 +42,7 @@ If you've added `Olssonm\Zxcvbn` as an alias, your can access Zxcvbn easily from
 
 ### "In app"
 
-``` php
+```php
 <?php
 
 use Zxcvbn;
@@ -80,7 +83,7 @@ The package gives you two different validation rules that you may use; `zxcvbn_m
 
 **Example**
 
-``` php
+```php
 <?php
     $data = ['password' => 'password'];
     $validator = Validator::make($data, [
@@ -102,7 +105,7 @@ This is a bit more interesting. `zxcvbn_dictionary` allows you to input both the
 
 **Example**
 
-``` php
+```php
 <?php
     /**
      * Example 1, pass
@@ -137,25 +140,34 @@ This is a bit more interesting. `zxcvbn_dictionary` allows you to input both the
 
 ## Testing
 
-``` bash
+```bash
 $ composer test
 ```
 
 or
 
-``` bash
+```bash
 $ phpunit
 ```
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see the [License File](LICENSE.md) for more information.
 
-© 2017 [Marcus Olsson](https://marcusolsson.me).
+© 2018 [Marcus Olsson](https://marcusolsson.me).
 
 [ico-version]: https://img.shields.io/packagist/v/olssonm/l5-zxcvbn.svg?style=flat-square
+
 [ico-downloads]: https://img.shields.io/packagist/dt/olssonm/l5-zxcvbn.svg?style=flat-square
+
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+
 [ico-travis]: https://img.shields.io/travis/olssonm/l5-zxcvbn/master.svg?style=flat-square
+
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/g/olssonm/l5-zxcvbn.svg?style=flat-square
+
 [link-packagist]: https://packagist.org/packages/olssonm/l5-zxcvbn
+
 [link-travis]: https://travis-ci.org/olssonm/l5-zxcvbn
+
+[link-scrutinizer]: https://scrutinizer-ci.com/g/olssonm/l5-zxcvbn
