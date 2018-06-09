@@ -18,19 +18,19 @@ class ZxcvbnServiceProvider extends ServiceProvider
         /**
          * Extend the Laravel Validator with the "zxcvbn_min" rule
          */
-        Validator::extend('zxcvbn_min', function($attribute, $value, $parameters, $validator) {
+        Validator::extend('zxcvbn_min', function($attribute, $value, $parameters) {
             $zxcvbn = new ZxcvbnPhp();
             $zxcvbn = $zxcvbn->passwordStrength($value);
             $target = 5;
 
-            if(isset($parameters[0])) {
+            if (isset($parameters[0])) {
                 $target = $parameters[0];
             }
 
             return ($zxcvbn['score'] >= $target);
         }, 'Your :attribute is not secure enough.');
 
-        Validator::replacer('zxcvbn_min', function($message, $attribute, $rule, $parameters) {
+        Validator::replacer('zxcvbn_min', function($message, $attribute) {
             $message = str_replace(':attribute', $attribute, $message);
             return $message;
         });
@@ -38,11 +38,11 @@ class ZxcvbnServiceProvider extends ServiceProvider
         /**
          * Extend the Laravel Validator with the "zxcvbn_min" rule
          */
-        Validator::extend('zxcvbn_dictionary', function($attribute, $value, $parameters, $validator) {
+        Validator::extend('zxcvbn_dictionary', function($attribute, $value, $parameters) {
             $email = null;
             $username = null;
 
-            if(isset($parameters[0])) {
+            if (isset($parameters[0])) {
                 $email = $parameters[0];
                 $username = $parameters[1];
             }
@@ -50,9 +50,9 @@ class ZxcvbnServiceProvider extends ServiceProvider
             $zxcvbn = new ZxcvbnPhp();
             $zxcvbn = $zxcvbn->passwordStrength($value, [$username, $email]);
 
-            if(isset($zxcvbn['match_sequence'][0])) {
+            if (isset($zxcvbn['match_sequence'][0])) {
                 $dictionary = $zxcvbn['match_sequence'][0];
-                if(isset($dictionary->dictionaryName)) {
+                if (isset($dictionary->dictionaryName)) {
                     return false;
                 }
             }
@@ -61,7 +61,7 @@ class ZxcvbnServiceProvider extends ServiceProvider
 
         }, 'Your :attribute is insecure. It either matches a commonly used password, or you have used a similar username/password combination.');
 
-        Validator::replacer('zxcvbn_dictionary', function($message, $attribute, $rule, $parameters) {
+        Validator::replacer('zxcvbn_dictionary', function($message, $attribute) {
             $message = str_replace(':attribute', $attribute, $message);
             return $message;
         });
@@ -74,7 +74,7 @@ class ZxcvbnServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('zxcvbn', function ($app) {
+        $this->app->bind('zxcvbn', function($app) {
             return new ZxcvbnPhp();
         });
     }
