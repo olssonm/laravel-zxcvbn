@@ -20,7 +20,7 @@ Via Composer
 $ composer require olssonm/l5-zxcvbn
 ```
 
-Add the package to your providers array:
+Add the package to your providers array (will be added automatically in Laravel 5.5+):
 
 ```php
 'providers' => [
