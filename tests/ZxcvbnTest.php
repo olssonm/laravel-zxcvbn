@@ -6,7 +6,7 @@ use Zxcvbn;
 
 class ZxcvbnTest extends \Orchestra\Testbench\TestCase {
 
-	public function setUp() {
+	public function setUp(): void {
         parent::setUp();
     }
 
