@@ -39,7 +39,6 @@ class ZxcvbnTest extends \Orchestra\Testbench\TestCase {
 	public function test_zxcvbn_basics()
     {
 		$zxcvbn = Zxcvbn::passwordStrength('password');
-        dd($zxcvbn);
 
 		$testVar1 = Zxcvbn::passwordStrength('test');
 
