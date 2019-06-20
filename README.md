@@ -10,7 +10,7 @@
 
 A simple implementation of zxcvbn for Laravel 5. This package allows you to access "zxcvbn-related" data on a passphrase in the application and also to use zxcvbn as a standard validator.
 
-Uses [Zxcvbn-PHP](https://github.com/bjeavons/zxcvbn-php) by [@bjeavons](https://github.com/bjeavons), which in turn is inspired by [zxcvbn](https://github.com/dropbox/zxcvbn) by [@dropbox](https://github.com/dropbox).
+Uses [Zxcvbn-PHP](https://github.com/mkopinsky/zxcvbn-php) by [@mkopinsky](https://github.com/mkopinsky) (originally by [@bjeavons](https://github.com/bjeavons)), which in turn is inspired by [zxcvbn](https://github.com/dropbox/zxcvbn) by [@dropbox](https://github.com/dropbox).
 
 ## Install
 
@@ -54,17 +54,19 @@ class MyClass extends MyOtherClass
         $zxcvbn = Zxcvbn::passwordStrength('password');
         dd($zxcvbn);
 
-        // array:6 [▼
-        //   "crack_time" => 5.0E-5
-        //   "calc_time" => 0.12961101531982
-        //   "password" => "password"
-        //   "entropy" => 0.0
-        //   "match_sequence" => array:1 []
-        //   "score" => 0
+        // array:9 [
+        //     "password" => "password"
+        //     "guesses" => 3
+        //     "guesses_log10" => 0.47712125471966
+        //     "sequence" => array:1 []
+        //     "crack_times_seconds" => array:4 []
+        //     "crack_times_display" => array:4 []
+        //     "score" => 0
+        //     "feedback" => array:2 []
+        //     "calc_time" => 0.042769908905029
         // ]
     }
 }
-?>
 ```
 
 Play around with different passwords and phrases, the results may surprise you. Check out [Zxcvbn-PHP](https://github.com/bjeavons/zxcvbn-php) for more uses and examples.
