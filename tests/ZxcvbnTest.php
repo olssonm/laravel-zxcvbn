@@ -38,15 +38,17 @@ class ZxcvbnTest extends \Orchestra\Testbench\TestCase {
      */
 	public function test_zxcvbn_basics()
     {
+		$zxcvbn = Zxcvbn::passwordStrength('password');
+
 		$testVar1 = Zxcvbn::passwordStrength('test');
 
 		// Check keys
 		$this->assertArrayHasKey('score', $testVar1);
-		$this->assertArrayHasKey('match_sequence', $testVar1);
-		$this->assertArrayHasKey('entropy', $testVar1);
-		$this->assertArrayHasKey('password', $testVar1);
+		$this->assertArrayHasKey('sequence', $testVar1);
+		$this->assertArrayHasKey('crack_times_seconds', $testVar1);
+		$this->assertArrayHasKey('crack_times_display', $testVar1);
 		$this->assertArrayHasKey('calc_time', $testVar1);
-		$this->assertArrayHasKey('crack_time', $testVar1);
+		$this->assertArrayHasKey('guesses', $testVar1);
 
 		// Check score-value
 		$this->assertEquals(0, $testVar1['score']);
@@ -57,7 +59,7 @@ class ZxcvbnTest extends \Orchestra\Testbench\TestCase {
 		$testVar4 = Zxcvbn::passwordStrength('7E6k9axB*gwGHa&aZTohmD9Wr&NVs[b4'); //<-- 32
 
 		// Check score-value
-		$this->assertEquals(1, $testVar2['score']);
+		$this->assertEquals(2, $testVar2['score']);
 		$this->assertEquals(4, $testVar3['score']);
 		$this->assertEquals(4, $testVar4['score']);
     }
@@ -106,6 +108,7 @@ class ZxcvbnTest extends \Orchestra\Testbench\TestCase {
 		$this->assertEquals('Just a message', $this->validate_with_message_dictionary('test', 'test@test.com', 'test', 'Just a message'));
 	}
 
+	/** @note validation helper */
 	private function validate_without_message_min($password, $min)
 	{
 		$data = ['password' => $password];
@@ -116,6 +119,7 @@ class ZxcvbnTest extends \Orchestra\Testbench\TestCase {
         return $validator->passes();
 	}
 
+	/** @note validation helper */
 	private function validate_with_message_min($password, $min, $message)
 	{
 		$data = ['password' => $password];
@@ -129,6 +133,7 @@ class ZxcvbnTest extends \Orchestra\Testbench\TestCase {
         return $errors->first('password');
 	}
 
+	/** @note validation helper */
 	private function validate_without_message_dictionary($password, $email, $username)
 	{
 		$data = ['password' => $password];
@@ -139,6 +144,7 @@ class ZxcvbnTest extends \Orchestra\Testbench\TestCase {
         return $validator->passes();
 	}
 
+	/** @note validation helper */
 	private function validate_with_message_dictionary($password, $email, $username, $message)
 	{
 		$data = ['password' => $password];

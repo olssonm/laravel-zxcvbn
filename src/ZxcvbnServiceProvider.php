@@ -50,8 +50,8 @@ class ZxcvbnServiceProvider extends ServiceProvider
             $zxcvbn = new ZxcvbnPhp();
             $zxcvbn = $zxcvbn->passwordStrength($value, [$username, $email]);
 
-            if (isset($zxcvbn['match_sequence'][0])) {
-                $dictionary = $zxcvbn['match_sequence'][0];
+            if (isset($zxcvbn['sequence'][0])) {
+                $dictionary = $zxcvbn['sequence'][0];
                 if (isset($dictionary->dictionaryName)) {
                     return false;
                 }
@@ -74,7 +74,7 @@ class ZxcvbnServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('zxcvbn', function($app) {
+        $this->app->bind('zxcvbn', function() {
             return new ZxcvbnPhp();
         });
     }
