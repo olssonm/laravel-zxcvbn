@@ -1,4 +1,4 @@
-# Zxcvbn for Laravel 5
+# Zxcvbn for Laravel 5/6
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total downloads][ico-downloads]][link-packagist]
