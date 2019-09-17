@@ -8,7 +8,7 @@
 
 ![zxcvbn](https://user-images.githubusercontent.com/907114/41193108-747d9b50-6c08-11e8-8f9c-57874f52fa9b.png)
 
-A simple implementation of zxcvbn for Laravel 5. This package allows you to access "zxcvbn-related" data on a passphrase in the application and also to use zxcvbn as a standard validator.
+A simple implementation of zxcvbn for Laravel. This package allows you to access "zxcvbn-related" data on a passphrase in the application and also to use zxcvbn as a standard validator.
 
 Uses [Zxcvbn-PHP](https://github.com/mkopinsky/zxcvbn-php) by [@mkopinsky](https://github.com/mkopinsky) (originally by [@bjeavons](https://github.com/bjeavons)), which in turn is inspired by [zxcvbn](https://github.com/dropbox/zxcvbn) by [@dropbox](https://github.com/dropbox).
 
@@ -18,14 +18,6 @@ Via Composer
 
 ```bash
 $ composer require olssonm/l5-zxcvbn
-```
-
-Add the package to your providers array (will be added automatically in Laravel 5.5+):
-
-```php
-'providers' => [
-    Olssonm\Zxcvbn\ZxcvbnServiceProvider::class,
-]
 ```
 
 If you wish to have the ability to use `Zxcvbn` via dependency injection, or just have a quick way to access the class – add an alias to the facades:
@@ -156,7 +148,7 @@ $ phpunit
 
 The MIT License (MIT). Please see the [License File](LICENSE.md) for more information.
 
-© 2018 [Marcus Olsson](https://marcusolsson.me).
+© 2019 [Marcus Olsson](https://marcusolsson.me).
 
 [ico-version]: https://img.shields.io/packagist/v/olssonm/l5-zxcvbn.svg?style=flat-square
 
