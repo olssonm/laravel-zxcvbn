@@ -1,6 +1,6 @@
 {
-    "name": "olssonm/l5-zxcvbn",
-    "description": "Implementation of the zxcvbn project by @dropbox for Laravel 5. Uses zxcvbn-php by @bjeavons.",
+    "name": "olssonm/laravel-zxcvbn",
+    "description": "Implementation of the zxcvbn project by @dropbox for Laravel. Uses zxcvbn-php by @bjeavons.",
     "keywords": [
         "olssonm",
         "zxcvbn",
@@ -10,7 +10,7 @@
         "validation",
         "laravel"
     ],
-    "homepage": "https://github.com/olssonm/l5-zxcvbn",
+    "homepage": "https://github.com/olssonm/laravel-zxcvbn",
     "license": "MIT",
     "authors": [
         {
@@ -20,13 +20,13 @@
         }
     ],
     "require": {
-        "php" : ">=7.1.3",
-        "illuminate/support": "^5.8",
+        "php" : "^7.1",
+        "illuminate/support": ">=5.8 || ^6.0",
         "mkopinsky/zxcvbn-php": "^4.4"
     },
     "require-dev": {
-        "phpunit/phpunit" : "~7.0",
-        "orchestra/testbench": "^3.8.0"
+        "phpunit/phpunit": "^7.5 || ^8.0",
+        "orchestra/testbench": ">=3.4.0"
     },
     "autoload": {
         "psr-4": {
