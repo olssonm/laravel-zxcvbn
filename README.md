@@ -1,4 +1,4 @@
-# Zxcvbn for Laravel 5/6
+# Zxcvbn for Laravel
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total downloads][ico-downloads]][link-packagist]
@@ -156,12 +156,12 @@ The MIT License (MIT). Please see the [License File](LICENSE.md) for more inform
 
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 
-[ico-travis]: https://img.shields.io/travis/olssonm/l5-zxcvbn/master.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/olssonm/laravel-zxcvbn/master.svg?style=flat-square
 
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/g/olssonm/l5-zxcvbn.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/olssonm/l5-zxcvbn
 
-[link-travis]: https://travis-ci.org/olssonm/l5-zxcvbn
+[link-travis]: https://travis-ci.org/olssonm/laravel-zxcvbn
 
 [link-scrutinizer]: https://scrutinizer-ci.com/g/olssonm/l5-zxcvbn

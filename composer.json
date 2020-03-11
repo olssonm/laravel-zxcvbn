@@ -21,7 +21,7 @@
     ],
     "require": {
         "php" : "^7.1",
-        "illuminate/support": ">=5.8 || ^6.0",
+        "illuminate/support": ">=5.8|^6.0|^7.0",
         "mkopinsky/zxcvbn-php": "^4.4"
     },
     "require-dev": {
