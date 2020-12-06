@@ -20,13 +20,13 @@
         }
     ],
     "require": {
-        "php" : "^7.1",
-        "illuminate/support": ">=5.8|^6.0|^7.0|^8.0",
-        "mkopinsky/zxcvbn-php": "^4.4"
+        "php": "^7.3|^8.0",
+        "illuminate/support": "^6.0|^7.0|^8.0",
+        "bjeavons/zxcvbn-php": "^1.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5 || ^8.0",
-        "orchestra/testbench": ">=3.4.0"
+        "phpunit/phpunit": "^8.0|^9.0",
+        "orchestra/testbench": ">=4.0"
     },
     "autoload": {
         "psr-4": {
