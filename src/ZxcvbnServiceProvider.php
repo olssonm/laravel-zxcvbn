@@ -36,7 +36,7 @@ class ZxcvbnServiceProvider extends ServiceProvider
         });
 
         /**
-         * Extend the Laravel Validator with the "zxcvbn_min" rule
+         * Extend the Laravel Validator with the "zxcvbn_dictionary" rule
          */
         Validator::extend('zxcvbn_dictionary', function($attribute, $value, $parameters) {
             $email = null;

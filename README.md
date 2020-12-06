@@ -10,7 +10,7 @@
 
 A simple implementation of zxcvbn for Laravel. This package allows you to access "zxcvbn-related" data on a passphrase in the application and also to use zxcvbn as a standard validator.
 
-Uses [Zxcvbn-PHP](https://github.com/mkopinsky/zxcvbn-php) by [@mkopinsky](https://github.com/mkopinsky) (originally by [@bjeavons](https://github.com/bjeavons)), which in turn is inspired by [zxcvbn](https://github.com/dropbox/zxcvbn) by [@dropbox](https://github.com/dropbox).
+Uses [Zxcvbn-PHP](https://github.com/bjeavons/zxcvbn-php) by [@bjeavons](https://github.com/bjeavons) and [@mkopinsky](https://github.com/mkopinsky), which in turn is inspired by [zxcvbn](https://github.com/dropbox/zxcvbn) by [@dropbox](https://github.com/dropbox).
 
 ## Install
 
@@ -110,7 +110,7 @@ This is a bit more interesting. `zxcvbn_dictionary` allows you to input both the
         'email'     => 'trash@thedumpster.com'
     ];
     $validator = Validator::make($password, [
-        'password' => 'zxcvbn_dictionary:' . $data['username'] . ',' . $data['email'] . '|required',
+        'password' => sprintf('required|zxcvbn_dictionary:%s,%s', $data['username'], $data['email'])
     ]);
 
     dd($validator->passes());
@@ -125,7 +125,7 @@ This is a bit more interesting. `zxcvbn_dictionary` allows you to input both the
         'email'     => 'mycomplicatedphrase@thedumpster.com'
     ];
     $validator = Validator::make($password, [
-        'password' => 'zxcvbn_dictionary:' . $data['username'] . ',' . $data['email'] . '|required',
+        'password' => sprintf('required|zxcvbn_dictionary:%s,%s', $data['username'], $data['email'])
     ]);
 
     dd($validator->passes());
@@ -148,7 +148,7 @@ $ phpunit
 
 The MIT License (MIT). Please see the [License File](LICENSE.md) for more information.
 
-© 2019 [Marcus Olsson](https://marcusolsson.me).
+© 2020 [Marcus Olsson](https://marcusolsson.me).
 
 [ico-version]: https://img.shields.io/packagist/v/olssonm/l5-zxcvbn.svg?style=flat-square
 
