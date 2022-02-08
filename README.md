@@ -3,8 +3,7 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total downloads][ico-downloads]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Scrutinizer Score][ico-scrutinizer]][link-scrutinizer]
+[![Build Status](https://img.shields.io/github/workflow/status/olssonm/laravel-zxcvbn/Laravel%20automated%20tests?style=flat-square)](https://github.com/olssonm/ampersand/actions/workflows/test.yml)
 
 ![zxcvbn](https://user-images.githubusercontent.com/907114/41193108-747d9b50-6c08-11e8-8f9c-57874f52fa9b.png)
 
