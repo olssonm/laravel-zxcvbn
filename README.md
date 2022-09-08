@@ -79,19 +79,21 @@ Play around with different passwords and phrases, the results may surprise you. 
 
 The package makes two types of validations available for your application. `zxcvbn` and `zxcvbn_dictionary`.
 
-#### zxcvbn
+### zxcvbn
 
 With this rule you set the lowest score that the phrase need to score wuth Zxcvbn to pass.
 
 **Syntax**
 
+``` php
 'input' => 'zxcvbn:min_value'
+```
 
-**Example**
+**Examples**
 
 ``` php
 $request->validate([
-    'password' => 'zxcvbn:3'
+    'password' => 'required|zxcvbn:3'
 ]);
 ```
 
@@ -110,19 +112,21 @@ function rules()
 
 In this example the password should at least have a "score" of three (3) to pass the validation. Of course, you should probably use the [zxcvbn-library](https://github.com/dropbox/zxcvbn) on the front-end too to allow the user to know this before posting the form.
 
-#### zxcvbn_dictionary
+### zxcvbn_dictionary
 
 This is a bit more interesting. `zxcvbn_dictionary` allows you to input both the users username and/or email together with their password (you need suply one piece of user input). The validator checks that the password doesn't exist in the username, or that they are too similar.
 
 **Syntax**
 
+``` php
 'input' => 'zxcvbn_dictionary:input1,input2'
+```
 
-**Example**
+**Examples**
 
 ``` php
 $request->validate([
-    'password' => sprintf('zxcvbn_dictionary:%s,%s', $request->username, $request->email)
+    'password' => sprintf('required|zxcvbn_dictionary:%s,%s', $request->username, $request->email)
 ]);
 ```
 
