@@ -1,160 +1,131 @@
-<?php namespace Olssonm\Zxcvbn\Tests;
+<?php
 
-use Validator;
+namespace Olssonm\Zxcvbn\Test;
 
-use Zxcvbn;
+use Illuminate\Support\Facades\Validator;
+use Olssonm\Zxcvbn\Facades\Zxcvbn;
+use Olssonm\Zxcvbn\Rules\Zxcvbn as ZxcvbnRule;
+use Olssonm\Zxcvbn\Rules\ZxcvbnDictionary as ZxcvbnDictionaryRule;
+use Olssonm\Zxcvbn\ZxcvbnServiceProvider;
+use ZxcvbnPhp\Zxcvbn as ZxcvbnPhp;
 
-class ZxcvbnTest extends \Orchestra\Testbench\TestCase {
+it('loads package', function () {
+    $providers = $this->app->getLoadedProviders();
+    $this->assertTrue(array_key_exists(ZxcvbnServiceProvider::class, $providers));
+});
 
-	public function setUp(): void {
-        parent::setUp();
-    }
+it('loads facade', function () {
+    $facade = $this->app['zxcvbn'];
+    $this->assertTrue(is_a($facade, ZxcvbnPhp::class));
+});
 
-    /**
-     * Load the package
-     * @return array the packages
-     */
-    protected function getPackageProviders($app)
-    {
-        return [
-            'Olssonm\Zxcvbn\ZxcvbnServiceProvider'
-        ];
-    }
+it('can perform zxcvbn basics', function () {
+    $zxcvbn = Zxcvbn::passwordStrength('password');
 
-	/**
-     * Load the alias
-     * @return array the aliases
-     */
-	protected function getPackageAliases($app)
-	{
-		return [
-            'Zxcvbn' => 'Olssonm\Zxcvbn\Facades\Zxcvbn'
-        ];
-	}
+    $testVar1 = Zxcvbn::passwordStrength('test');
 
-    /**
-     * Just run som standard tests to see that Zxcvbn is up to snuff and working
-     * @test
-     */
-	public function test_zxcvbn_basics()
-    {
-		$zxcvbn = Zxcvbn::passwordStrength('password');
+    // Check keys
+    $this->assertArrayHasKey('score', $testVar1);
+    $this->assertArrayHasKey('sequence', $testVar1);
+    $this->assertArrayHasKey('crack_times_seconds', $testVar1);
+    $this->assertArrayHasKey('crack_times_display', $testVar1);
+    $this->assertArrayHasKey('calc_time', $testVar1);
+    $this->assertArrayHasKey('guesses', $testVar1);
 
-		$testVar1 = Zxcvbn::passwordStrength('test');
+    // Check score-value
+    $this->assertEquals(0, $testVar1['score']);
 
-		// Check keys
-		$this->assertArrayHasKey('score', $testVar1);
-		$this->assertArrayHasKey('sequence', $testVar1);
-		$this->assertArrayHasKey('crack_times_seconds', $testVar1);
-		$this->assertArrayHasKey('crack_times_display', $testVar1);
-		$this->assertArrayHasKey('calc_time', $testVar1);
-		$this->assertArrayHasKey('guesses', $testVar1);
+    // Run some more tests
+    $testVar2 = Zxcvbn::passwordStrength('dadaurka');
+    $testVar3 = Zxcvbn::passwordStrength('staple horse battery');
+    $testVar4 = Zxcvbn::passwordStrength('7E6k9axB*gwGHa&aZTohmD9Wr&NVs[b4'); //<-- 32
 
-		// Check score-value
-		$this->assertEquals(0, $testVar1['score']);
+    // Check score-value
+    $this->assertEquals(2, $testVar2['score']);
+    $this->assertEquals(4, $testVar3['score']);
+    $this->assertEquals(4, $testVar4['score']);
+});
 
-		// Run some more tests
-		$testVar2 = Zxcvbn::passwordStrength('dadaurka');
-		$testVar3 = Zxcvbn::passwordStrength('staple horse battery');
-		$testVar4 = Zxcvbn::passwordStrength('7E6k9axB*gwGHa&aZTohmD9Wr&NVs[b4'); //<-- 32
+it('can validate min-rule', function () {
+    // Fails: returns message
+    $this->assertEquals('Just a test message', min_validation('test', 4, 'Just a test message'));
+    $this->assertEquals('Just another test message', min_validation('test', 4, 'Just another test message'));
+    $this->assertEquals('The password is not strong enough.', min_validation('staple horse battery', 5, null));
 
-		// Check score-value
-		$this->assertEquals(2, $testVar2['score']);
-		$this->assertEquals(4, $testVar3['score']);
-		$this->assertEquals(4, $testVar4['score']);
-    }
+    // Passes: returns true
+    $this->assertEquals(true, min_validation('test', 0));
+    $this->assertEquals(true, min_validation('staple horse battery', 3));
+    $this->assertEquals(true, min_validation('staple horse battery', 4));
+});
 
-	/** @test */
-	public function test_password_strength()
-	{
-		// Standard tests
-		$this->assertEquals(true, $this->validate_without_message_min('test', 0));
-		$this->assertEquals(false, $this->validate_without_message_min('test', 4));
+it('can validate dictionary-rule', function () {
+    // Fails: returns message
+    $this->assertEquals('The password is too simililar to another field.', dictionary_validation('dadaurka', 'test@test.com', 'dadaurka', null));
+    $this->assertEquals('The password is too simililar to another field.', dictionary_validation('dadaurka', 'dadaurka', null, null));
+    $this->assertEquals('Just a message', dictionary_validation('test', 'test@test.com', 'test', 'Just a message'));
 
-		$this->assertEquals(true, $this->validate_without_message_min('staple horse battery', 3));
-		$this->assertEquals(true, $this->validate_without_message_min('staple horse battery', 4));
-		$this->assertEquals(false, $this->validate_without_message_min('staple horse battery', 5));
-	}
+    // Passes: returns true
+    $this->assertEquals(true, dictionary_validation('d5=:r+AEl5?+', 'dadaurka@test.com', 'dadaurka', null));
+    $this->assertEquals(true, dictionary_validation('Mo]R^v@vYo]I', 'myemail@test.com', 'username', null));
+    $this->assertEquals(true, dictionary_validation('%!/%^Qz1q&KH', 'trash@thedumpster.com', 'username', null));
+    $this->assertEquals(true, dictionary_validation('O`l}/RqR9$.S','trash@thedumpster.com', null, null));
+});
 
-	/** @test */
-	public function test_password_strength_with_message()
-	{
-		// Standard message
-		$this->assertEquals('Your password is not secure enough.', $this->validate_with_message_min('staple horse battery', 5, null));
-		$this->assertEquals('Just a message', $this->validate_with_message_min('test', 4, 'Just a message'));
-	}
+it('can validate rules as objects', function() {
+    // Pass min-rule, fail dictionary-rule
+    $this->assertEquals('The password is too simililar to another field.', rule_validator(3, 'gagadododaka', 'gagadododaka@test.com', 'gagadododaka', null));
 
-	/** @test */
-	public function test_password_dictionary()
-	{
-		// Standard tests
-		$this->assertEquals(false, $this->validate_without_message_dictionary('password', 'test@test.com', 'test'));
-		$this->assertEquals(false, $this->validate_without_message_dictionary('test', 'test@test.com', 'test'));
-		$this->assertEquals(false, $this->validate_without_message_dictionary('721ahsa!', '721ahsa@test.com', '721ahsa'));
+    // Fail min-rule, pass dictionary-rule
+    $this->assertEquals('The password is not strong enough.', rule_validator(4, 'test', 'trash@thedumpster.com', 'username', null));
 
-		$this->assertEquals(true, $this->validate_without_message_dictionary('721ahsa!', 'dadaurka@test.com', 'dadaurka'));
-		$this->assertEquals(true, $this->validate_without_message_dictionary('asd912j!', 'myemail@test.com', 'username'));
-		$this->assertEquals(true, $this->validate_without_message_dictionary('asd912j!', 'trash@thedumpster.com', 'username'));
+    // Pass both rules
+    $this->assertEquals('The password is not strong enough.', rule_validator(7, 'O`l}/RqR9$.S', 'trash@thedumpster.com', null));
+});
 
-		$this->assertEquals(true, $this->validate_without_message_dictionary('asd912j!', null, 'username'));
-		$this->assertEquals(true, $this->validate_without_message_dictionary('asd912j!', null, null));
-	}
+/** @note validation helper */
+function min_validation($password, $min, $message = null)
+{
+    $data = ['password' => $password];
+    $validator = Validator::make($data, [
+        'password' => ['required', 'zxcvbn:' . $min],
+    ], $message ? ['password.zxcvbn' => $message] : []);
 
-	/** @test */
-	public function test_password_dictionary_with_message()
-	{
-		// Standard message
-		$this->assertEquals('Your password is insecure. It either matches a commonly used password, or you have used a similar username/password combination.', $this->validate_with_message_dictionary('password', 'test@test.com', 'test', null));
-		$this->assertEquals('Just a message', $this->validate_with_message_dictionary('test', 'test@test.com', 'test', 'Just a message'));
-	}
-
-	/** @note validation helper */
-	private function validate_without_message_min($password, $min)
-	{
-		$data = ['password' => $password];
-        $validator = Validator::make($data, [
-            'password' => 'zxcvbn_min:' . $min . '|required',
-        ]);
-
-        return $validator->passes();
-	}
-
-	/** @note validation helper */
-	private function validate_with_message_min($password, $min, $message)
-	{
-		$data = ['password' => $password];
-        $validator = Validator::make($data, [
-            'password' => 'zxcvbn_min:' . $min . '|required',
-        ], [
-			'password.zxcvbn_min' => $message
-		]);
-
-		$errors = $validator->errors();
+    if (!$validator->passes()) {
+        $errors = $validator->errors('password');
         return $errors->first('password');
-	}
+    }
 
-	/** @note validation helper */
-	private function validate_without_message_dictionary($password, $email, $username)
-	{
-		$data = ['password' => $password];
-        $validator = Validator::make($data, [
-            'password' => 'zxcvbn_dictionary:' . $username . ',' . $email . '|required',
-        ]);
+    return $validator->passes();
+}
 
-        return $validator->passes();
-	}
+/** @note validation helper */
+function dictionary_validation($password, $email, $username, $message = null)
+{
+    $data = ['password' => $password];
+    $validator = Validator::make($data, [
+        'password' => 'zxcvbn_dictionary:' . $username . ',' . $email . '|required',
+    ], $message ? ['password.zxcvbn_dictionary' => $message] : []);
 
-	/** @note validation helper */
-	private function validate_with_message_dictionary($password, $email, $username, $message)
-	{
-		$data = ['password' => $password];
-        $validator = Validator::make($data, [
-            'password' => 'zxcvbn_dictionary:' . $username . ',' . $email . '|required',
-        ], [
-			'password.zxcvbn_dictionary' => $message
-		]);
-
-		$errors = $validator->errors();
+    if (!$validator->passes()) {
+        $errors = $validator->errors('password');
         return $errors->first('password');
-	}
+    }
+
+    return $validator->passes();
+}
+
+/** @note object rule validator  */
+function rule_validator($min, $password, $email, $username, $message = null)
+{
+    $data = ['password' => $password];
+    $validator = Validator::make($data, [
+        'password' => ['required', new ZxcvbnDictionaryRule($username, $email), new ZxcvbnRule($min)],
+    ], $message ? ['password.zxcvbn' => $message] : []);
+
+    if (!$validator->passes()) {
+        $errors = $validator->errors('password');
+        return $errors->first('password');
+    }
+
+    return $validator->passes();
 }

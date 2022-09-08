@@ -21,8 +21,6 @@ jobs:
                       illuminate: ^8.0
                     - php: 7.4
                       illuminate: ^7.0
-                    - php: 7.3
-                      illuminate: ^7.0
 
         name: PHP ${{ matrix.php }} - Illuminate ${{ matrix.illuminate }}
 
