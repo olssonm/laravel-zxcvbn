@@ -33,9 +33,7 @@ If you've added `Olssonm\Zxcvbn` as an alias, your can access Zxcvbn easily from
 
 ### "In app"
 
-```php
-<?php
-
+``` php
 use Zxcvbn;
 
 class MyClass extends MyOtherClass
@@ -79,25 +77,65 @@ Play around with different passwords and phrases, the results may surprise you. 
 
 ### As a validator
 
-The package gives you a validation rules that you may use; `zxcvbn`, allows you to set up a rule for minimum score that the value beeing tested should adhere to.
+The package makes two types of validations available for your application. `zxcvbn` and `zxcvbn_dictionary`.
+
+#### zxcvbn
+
+With this rule you set the lowest score that the phrase need to score wuth Zxcvbn to pass.
 
 **Syntax**
 
-    input' => 'zxcvbn_min:min_value'
+'input' => 'zxcvbn:min_value'
 
 **Example**
 
-```php
-<?php
-    $data = ['password' => 'password'];
-    $validator = Validator::make($data, [
-        'password' => 'zxcvbn_min:3|required',
-    ], [
-        'password.zxcvbn_min' => 'Your password is not strong enough!'
-    ]);
+``` php
+$request->validate([
+    'password' => 'zxcvbn:3'
+]);
+```
+
+You may also initialize the rule as an object:
+
+``` php
+use Olssonm\Zxcvbn\Rules\Zxcvbn;
+
+function rules() 
+{
+    return [
+        'password' => ['required', new Zxcvbn($minScore = 3)]
+    ];
+}
 ```
 
 In this example the password should at least have a "score" of three (3) to pass the validation. Of course, you should probably use the [zxcvbn-library](https://github.com/dropbox/zxcvbn) on the front-end too to allow the user to know this before posting the form.
+
+#### zxcvbn_dictionary
+
+This is a bit more interesting. `zxcvbn_dictionary` allows you to input both the users username and/or email together with their password (you need suply one piece of user input). The validator checks that the password doesn't exist in the username, or that they are too similar.
+
+**Syntax**
+
+'input' => 'zxcvbn_dictionary:input1,input2'
+
+**Example**
+
+``` php
+$request->validate([
+    'password' => sprintf('zxcvbn_dictionary:%s,%s', $request->username, $request->email)
+]);
+```
+
+``` php
+use Olssonm\Zxcvbn\Rules\ZxcvbnDictionary;
+
+function rules() 
+{
+    return [
+        'password' => ['required', new ZxcvbnDictionary($this->username)]
+    ];
+}
+```
 
 ## Testing
 
