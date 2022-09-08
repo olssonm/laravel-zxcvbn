@@ -34,7 +34,7 @@ class Zxcvbn implements Rule
      */
     public function passes($attribute, $value)
     {
-        $zxcvbn = (new ZxcvbnPhp)->passwordStrength($value);
+        $zxcvbn = (new ZxcvbnPhp())->passwordStrength($value);
         return ($zxcvbn['score'] >= $this->target);
     }
 

@@ -6,7 +6,6 @@ use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Support\ServiceProvider;
 use Olssonm\Zxcvbn\Rules\Zxcvbn;
 use Olssonm\Zxcvbn\Rules\ZxcvbnDictionary;
-
 use Validator;
 use ZxcvbnPhp\Zxcvbn as ZxcvbnPhp;
 
@@ -19,7 +18,7 @@ class ZxcvbnServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('zxcvbn', function() {
+        $this->app->bind('zxcvbn', function () {
             return new ZxcvbnPhp();
         });
     }
@@ -30,7 +29,7 @@ class ZxcvbnServiceProvider extends ServiceProvider
             $this->app['validator']->extend($rule::handle(), function ($attribute, $value, $parameters) use ($rule) {
                 return (new $rule(...$parameters))->passes($attribute, $value);
             },
-            (new $rule)->message());
+            (new $rule())->message());
         }
     }
 }
