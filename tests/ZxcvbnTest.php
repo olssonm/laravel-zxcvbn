@@ -48,9 +48,9 @@ it('can perform zxcvbn basics', function () {
 
 it('can validate min-rule', function () {
     // Fails: returns message
-    $this->assertEquals('Just a message', min_validation('test', 4, 'Just a message'));
+    $this->assertEquals('Just a test message', min_validation('test', 4, 'Just a test message'));
+    $this->assertEquals('Just another test message', min_validation('test', 4, 'Just another test message'));
     $this->assertEquals('The password is not strong enough.', min_validation('staple horse battery', 5, null));
-    $this->assertEquals('Just a message', min_validation('test', 4, 'Just a message'));
 
     // Passes: returns true
     $this->assertEquals(true, min_validation('test', 0));

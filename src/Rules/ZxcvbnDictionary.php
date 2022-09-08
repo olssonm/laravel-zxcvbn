@@ -49,10 +49,6 @@ class ZxcvbnDictionary implements Rule
      */
     public function message()
     {
-        $message = trans('validation.' . self::handle());
-
-        return $message === 'validation.' . self::handle()
-            ? ['The :attribute is too simililar to another field.']
-            : $message;
+        return 'The :attribute is too simililar to another field.';
     }
 }

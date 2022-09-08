@@ -45,10 +45,6 @@ class Zxcvbn implements Rule
      */
     public function message()
     {
-        $message = trans('validation.' . self::handle());
-
-        return $message === 'validation.' . self::handle()
-            ? ['The :attribute is not strong enough.']
-            : $message;
+        return 'The :attribute is not strong enough.';
     }
 }
