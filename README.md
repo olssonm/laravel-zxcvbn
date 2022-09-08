@@ -9,7 +9,7 @@
 
 A simple implementation of zxcvbn for Laravel. This package allows you to access "zxcvbn-related" data on a passphrase in the application and also to use zxcvbn as a standard validator.
 
-Uses [Zxcvbn-PHP](https://github.com/bjeavons/zxcvbn-php) by [@bjeavons](https://github.com/bjeavons) and [@mkopinsky](https://github.com/mkopinsky), which in turn is inspired by [zxcvbn](https://github.com/dropbox/zxcvbn) by [@dropbox](https://github.com/dropbox).
+Uses [Zxcvbn-PHP](https://github.com/bjeavons/zxcvbn-php) by [@bjeavons](https://github.com/bjeavons), which in turn is inspired by [zxcvbn](https://github.com/dropbox/zxcvbn) by [@dropbox](https://github.com/dropbox).
 
 ## Install
 
@@ -47,14 +47,29 @@ class MyClass extends MyOtherClass
 
         // array:9 [
         //     "password" => "password"
-        //     "guesses" => 3
+        //     "guesses" => 3.0
         //     "guesses_log10" => 0.47712125471966
-        //     "sequence" => array:1 []
-        //     "crack_times_seconds" => array:4 []
-        //     "crack_times_display" => array:4 []
+        //     "sequence" => [],
+        //     "crack_times_seconds" => array:4 [
+        //         "online_throttling_100_per_hour" => 108.0
+        //         "online_no_throttling_10_per_second" => 0.3
+        //         "offline_slow_hashing_1e4_per_second" => 0.0003
+        //         "offline_fast_hashing_1e10_per_second" => 3.0E-10
+        //     ]
+        //     "crack_times_display" => array:4 [
+        //         "online_throttling_100_per_hour" => "2 minutes"
+        //         "online_no_throttling_10_per_second" => "less than a second"
+        //         "offline_slow_hashing_1e4_per_second" => "less than a second"
+        //         "offline_fast_hashing_1e10_per_second" => "less than a second"
+        //     ]
         //     "score" => 0
-        //     "feedback" => array:2 []
-        //     "calc_time" => 0.042769908905029
+        //     "feedback" => array:2 [
+        //         "warning" => "This is a top-10 common password"
+        //         "suggestions" => array:1 [
+        //         0 => "Add another word or two. Uncommon words are better."
+        //         ]
+        //     ]
+        //     "calc_time" => 0.020488977432251
         // ]
     }
 }
@@ -64,11 +79,7 @@ Play around with different passwords and phrases, the results may surprise you. 
 
 ### As a validator
 
-The package gives you two different validation rules that you may use; `zxcvbn_min` and `zxcvbn_dictionary`.
-
-#### zxcvbn_min
-
-`zxcvbn_min` allows you to set up a rule for minimum score that the value beeing tested should adhere to.
+The package gives you a validation rules that you may use; `zxcvbn`, allows you to set up a rule for minimum score that the value beeing tested should adhere to.
 
 **Syntax**
 
@@ -86,50 +97,7 @@ The package gives you two different validation rules that you may use; `zxcvbn_m
     ]);
 ```
 
-In this example the password should at least have a "score" of three (3) to pass the validation. Of course, you should probably use the zxcvbn-library on the front-end too to allow the user to know this before posting the form...
-
-#### zxcvbn_dictionary
-
-This is a bit more interesting. `zxcvbn_dictionary` allows you to input both the users username and/or email, and their password. The validator checks that the password doesn't exist in the username, or that they are too similar.
-
-**Syntax**
-
-    'input' => 'xcvbn_dictionary:username,email'
-
-**Example**
-
-```php
-<?php
-    /**
-     * Example 1, pass
-     */
-    $password = '31??2sa//"dhjd2askjd19sad19!!&!#"';
-    $data = [
-        'username'  => 'user',
-        'email'     => 'trash@thedumpster.com'
-    ];
-    $validator = Validator::make($password, [
-        'password' => sprintf('required|zxcvbn_dictionary:%s,%s', $data['username'], $data['email'])
-    ]);
-
-    dd($validator->passes());
-    // true
-
-    /**
-     * Example 2, fail
-     */
-    $password = 'mycomplicatedphrase';
-    $data = [
-        'username'  => 'mycomplicatedphrase',
-        'email'     => 'mycomplicatedphrase@thedumpster.com'
-    ];
-    $validator = Validator::make($password, [
-        'password' => sprintf('required|zxcvbn_dictionary:%s,%s', $data['username'], $data['email'])
-    ]);
-
-    dd($validator->passes());
-    // false
-```
+In this example the password should at least have a "score" of three (3) to pass the validation. Of course, you should probably use the [zxcvbn-library](https://github.com/dropbox/zxcvbn) on the front-end too to allow the user to know this before posting the form.
 
 ## Testing
 
@@ -147,7 +115,7 @@ $ phpunit
 
 The MIT License (MIT). Please see the [License File](LICENSE.md) for more information.
 
-© 2020 [Marcus Olsson](https://marcusolsson.me).
+© 2022 [Marcus Olsson](https://marcusolsson.me).
 
 [ico-version]: https://img.shields.io/packagist/v/olssonm/l5-zxcvbn.svg?style=flat-square
 
