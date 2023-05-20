@@ -19,7 +19,10 @@ class Zxcvbn implements Rule
         $this->target = $target;
     }
 
-    public static function handle(): string
+    /**
+     * @return string
+     */
+    public static function handle()
     {
         return 'zxcvbn';
     }

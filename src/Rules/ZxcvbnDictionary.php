@@ -7,7 +7,8 @@ use ZxcvbnPhp\Matchers\DictionaryMatch;
 
 class ZxcvbnDictionary implements Rule
 {
-    protected array $input;
+    /** @var mixed[]|null[] $input */
+    protected $input;
 
     /**
      * Create a new rule instance.
@@ -19,7 +20,10 @@ class ZxcvbnDictionary implements Rule
         $this->input = array_filter([$input1, $input2]);
     }
 
-    public static function handle(): string
+    /**
+     * @return string
+     */
+    public static function handle()
     {
         return 'zxcvbn_dictionary';
     }
