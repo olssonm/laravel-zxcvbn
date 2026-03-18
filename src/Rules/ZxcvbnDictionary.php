@@ -2,17 +2,18 @@
 
 namespace Olssonm\Zxcvbn\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use ZxcvbnPhp\Matchers\DictionaryMatch;
 
-class ZxcvbnDictionary implements Rule
+class ZxcvbnDictionary implements ValidationRule
 {
+    public const MESSAGE = 'The :attribute is too simililar to another field.';
+
     protected array $input;
 
     /**
      * Create a new rule instance.
-     *
-     * @return void
      */
     public function __construct($input1 = null, $input2 = null)
     {
@@ -25,30 +26,17 @@ class ZxcvbnDictionary implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     *
-     * @return bool
+     * Run the validation rule.
      */
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $matches = DictionaryMatch::match($value, $this->input);
         $matches = array_values(array_filter($matches, function ($match) {
             return $match->dictionaryName === 'user_inputs';
         }));
 
-        return count($matches) === 0;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return 'The :attribute is too simililar to another field.';
+        if (count($matches) !== 0) {
+            $fail(self::MESSAGE);
+        }
     }
 }

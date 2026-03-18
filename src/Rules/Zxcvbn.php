@@ -2,19 +2,20 @@
 
 namespace Olssonm\Zxcvbn\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use ZxcvbnPhp\Zxcvbn as ZxcvbnPhp;
 
-class Zxcvbn implements Rule
+class Zxcvbn implements ValidationRule
 {
-    private $target;
+    public const MESSAGE = 'The :attribute is not strong enough.';
+
+    private int $target;
 
     /**
      * Create a new rule instance.
-     *
-     * @return void
      */
-    public function __construct($target = 5)
+    public function __construct(int $target = 5)
     {
         $this->target = $target;
     }
@@ -25,26 +26,14 @@ class Zxcvbn implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     *
-     * @return bool
+     * Run the validation rule.
      */
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $zxcvbn = (new ZxcvbnPhp())->passwordStrength($value);
-        return ($zxcvbn['score'] >= $this->target);
-    }
 
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return 'The :attribute is not strong enough.';
+        if ($zxcvbn['score'] < $this->target) {
+            $fail(self::MESSAGE);
+        }
     }
 }
