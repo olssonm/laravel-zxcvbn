@@ -9,11 +9,6 @@ use ZxcvbnPhp\Zxcvbn as ZxcvbnPhp;
 
 class ZxcvbnServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any package services.
-     *
-     * @return void
-     */
     public function register()
     {
         $this->app->bind('zxcvbn', function () {

@@ -60,8 +60,8 @@ it('can validate min-rule', function () {
 
 it('can validate dictionary-rule', function () {
     // Fails: returns message
-    $this->assertEquals('The password is too simililar to another field.', dictionary_validation('dadaurka', 'test@test.com', 'dadaurka', null));
-    $this->assertEquals('The password is too simililar to another field.', dictionary_validation('dadaurka', 'dadaurka', null, null));
+    $this->assertEquals('The password is too similar to another field.', dictionary_validation('dadaurka', 'test@test.com', 'dadaurka', null));
+    $this->assertEquals('The password is too similar to another field.', dictionary_validation('dadaurka', 'dadaurka', null, null));
     $this->assertEquals('Just a message', dictionary_validation('test', 'test@test.com', 'test', 'Just a message'));
 
     // Passes: returns true
@@ -73,7 +73,7 @@ it('can validate dictionary-rule', function () {
 
 it('can validate rules as objects', function() {
     // Pass min-rule, fail dictionary-rule
-    $this->assertEquals('The password is too simililar to another field.', rule_validator(3, 'gagadododaka', 'gagadododaka@test.com', 'gagadododaka', null));
+    $this->assertEquals('The password is too similar to another field.', rule_validator(3, 'gagadododaka', 'gagadododaka@test.com', 'gagadododaka', null));
 
     // Fail min-rule, pass dictionary-rule
     $this->assertEquals('The password is not strong enough.', rule_validator(4, 'test', 'trash@thedumpster.com', 'username', null));
